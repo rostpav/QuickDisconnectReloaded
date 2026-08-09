@@ -3,13 +3,11 @@ package com.rostpav79.quickdisconnectreloaded;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.GenericMessageScreen;
 import net.minecraft.client.gui.screens.TitleScreen;
-import net.minecraft.network.chat.Component;
-import net.minecraftforge.api.distmarker.Dist;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.resources.Identifier;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.lwjgl.glfw.GLFW;
 
@@ -17,38 +15,35 @@ import org.lwjgl.glfw.GLFW;
 public class QuickDisconnectReloaded {
     public static final String MODID = "quickdisconnectreloaded";
 
-    @Mod.EventBusSubscriber(modid = MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
-    public static class ClientModEvents {
-        public static final KeyMapping DISCONNECT_KEY = new KeyMapping(
-                "key.quickdisconnectreloaded.disconnect",
-                InputConstants.Type.KEYSYM,
-                GLFW.GLFW_KEY_F10,
-                "category.quickdisconnectreloaded.keys");
+    public static final KeyMapping.Category KEY_CATEGORY = KeyMapping.Category.register(Identifier.fromNamespaceAndPath(MODID, "keys"));
 
-        @SubscribeEvent
-        public static void onKeyRegister(RegisterKeyMappingsEvent event) {
-            event.register(DISCONNECT_KEY);
-        }
+    public static final KeyMapping DISCONNECT_KEY = new KeyMapping(
+            "key.quickdisconnectreloaded.disconnect",
+            InputConstants.Type.KEYSYM,
+            GLFW.GLFW_KEY_F10,
+            KEY_CATEGORY);
+
+    public QuickDisconnectReloaded() {
+        RegisterKeyMappingsEvent.BUS.addListener(QuickDisconnectReloaded::onKeyRegister);
+        TickEvent.ClientTickEvent.Post.BUS.addListener(QuickDisconnectReloaded::onClientTick);
     }
 
-    @Mod.EventBusSubscriber(modid = MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE)
-    public static class ClientEvents {
-        @SubscribeEvent
-        public static void onClientTick(TickEvent.ClientTickEvent event) {
-            if (event.phase == TickEvent.Phase.END) {
-                while (ClientModEvents.DISCONNECT_KEY.consumeClick()) {
-                    Minecraft mc = Minecraft.getInstance();
-                    if (mc.level != null) {
-                        boolean isLocal = mc.isLocalServer();
-                        mc.level.disconnect();
-                        if (isLocal) {
-                            mc.disconnect(new GenericMessageScreen(Component.translatable("menu.savingLevel")));
-                        } else {
-                            mc.disconnect();
-                        }
-                        mc.setScreen(new TitleScreen());
-                    }
+    private static void onKeyRegister(RegisterKeyMappingsEvent event) {
+        event.register(DISCONNECT_KEY);
+    }
+
+    private static void onClientTick(TickEvent.ClientTickEvent.Post event) {
+        while (DISCONNECT_KEY.consumeClick()) {
+            Minecraft mc = Minecraft.getInstance();
+            if (mc.level != null) {
+                boolean isLocal = mc.isLocalServer();
+                mc.level.disconnect(ClientLevel.DEFAULT_QUIT_MESSAGE);
+                if (isLocal) {
+                    mc.disconnectWithSavingScreen();
+                } else {
+                    mc.disconnectWithProgressScreen();
                 }
+                mc.setScreen(new TitleScreen());
             }
         }
     }
