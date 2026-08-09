@@ -1,5 +1,8 @@
 # Quick Disconnect Reloaded
 
+![CurseForge](https://cf.way2muchnoise.eu/title/1643471.svg)
+![CurseForge Versions](https://cf.way2muchnoise.eu/versions/1643471.svg)
+
 Adds a hotkey (default `F10`) for instantly leaving a world or multiplayer server.
 
 ## Loaders
