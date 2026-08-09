@@ -1,0 +1,29 @@
+# Gradle
+.gradle/
+build/
+*/build/
+!src/**/build/
+
+# Run directories
+*/run/
+run/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+bin/
+out/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# MDK archives
+*.zip
+
+# Misc
+*.log
