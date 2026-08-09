@@ -105,6 +105,11 @@ tasks.named('processResources', ProcessResources).configure {
 }
 
 // Example for how to get properties into the manifest for reading at runtime.
+tasks.register('sourcesJar', Jar) {
+    archiveFileName = "QuickDisconnectReloaded_FORGE_mc${minecraft_version}-sources.jar"
+    from sourceSets.main.allJava
+}
+
 tasks.named('jar', Jar).configure {
     archiveFileName = "QuickDisconnectReloaded_FORGE_mc${minecraft_version}.jar"
     manifest {

@@ -159,6 +159,11 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
     into "build/generated/sources/modMetadata"
 }
 
+tasks.register('sourcesJar', Jar) {
+    archiveFileName = "QuickDisconnectReloaded_NEOFORGE_mc${minecraft_version}-sources.jar"
+    from sourceSets.main.allJava
+}
+
 tasks.named('jar', Jar).configure {
     archiveFileName = "QuickDisconnectReloaded_NEOFORGE_mc${minecraft_version}.jar"
 }

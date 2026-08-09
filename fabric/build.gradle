@@ -53,6 +53,14 @@ tasks.named('remapJar').configure {
     archiveFileName = "QuickDisconnectReloaded_FABRIC_mc${project.minecraft_version}.jar"
 }
 
+tasks.named('sourcesJar').configure {
+    archiveFileName = "QuickDisconnectReloaded_FABRIC_mc${project.minecraft_version}-sources.jar"
+}
+
+tasks.named('remapSourcesJar').configure {
+    archiveFileName = "QuickDisconnectReloaded_FABRIC_mc${project.minecraft_version}-sources.jar"
+}
+
 // configure the maven publication
 publishing {
     publications {
