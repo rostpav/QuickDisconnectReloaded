@@ -1,7 +1,7 @@
 # Quick Disconnect Reloaded
 
-![CurseForge](https://cf.way2muchnoise.eu/title/1643471.svg)
-![CurseForge Versions](https://cf.way2muchnoise.eu/versions/1643471.svg)
+[![CurseForge](https://cf.way2muchnoise.eu/title/1643471.svg)](https://www.curseforge.com/minecraft/mc-mods/quickdisconnectreloaded)
+[![CurseForge Versions](https://cf.way2muchnoise.eu/versions/1643471.svg)](https://www.curseforge.com/minecraft/mc-mods/quickdisconnectreloaded)
 
 Adds a hotkey (default `F10`) for instantly leaving a world or multiplayer server.
 
