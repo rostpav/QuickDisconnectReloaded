@@ -3,9 +3,9 @@ package com.rostpav79.quickdisconnectreloaded;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.GenericMessageScreen;
 import net.minecraft.client.gui.screens.TitleScreen;
-import net.minecraft.network.chat.Component;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -19,17 +19,20 @@ import org.lwjgl.glfw.GLFW;
 public class QuickDisconnectReloaded {
     public static final String MODID = "quickdisconnectreloaded";
 
+    public static final KeyMapping.Category KEY_CATEGORY = new KeyMapping.Category(Identifier.fromNamespaceAndPath(MODID, "keys"));
+
     public static final KeyMapping DISCONNECT_KEY = new KeyMapping(
             "key.quickdisconnectreloaded.disconnect",
             InputConstants.Type.KEYSYM,
             GLFW.GLFW_KEY_F10,
-            "category.quickdisconnectreloaded.keys");
+            KEY_CATEGORY);
 
     public QuickDisconnectReloaded(IEventBus modEventBus) {
         modEventBus.addListener(this::onKeyRegister);
     }
 
     private void onKeyRegister(RegisterKeyMappingsEvent event) {
+        event.registerCategory(KEY_CATEGORY);
         event.register(DISCONNECT_KEY);
     }
 
@@ -41,11 +44,11 @@ public class QuickDisconnectReloaded {
                 Minecraft mc = Minecraft.getInstance();
                 if (mc.level != null) {
                     boolean isLocal = mc.isLocalServer();
-                    mc.level.disconnect();
+                    mc.level.disconnect(ClientLevel.DEFAULT_QUIT_MESSAGE);
                     if (isLocal) {
-                        mc.disconnect(new GenericMessageScreen(Component.translatable("menu.savingLevel")));
+                        mc.disconnectWithSavingScreen();
                     } else {
-                        mc.disconnect();
+                        mc.disconnectWithProgressScreen();
                     }
                     mc.setScreen(new TitleScreen());
                 }

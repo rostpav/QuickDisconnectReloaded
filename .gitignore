@@ -25,5 +25,12 @@ Thumbs.db
 # MDK archives
 *.zip
 
+# ForgeGradle/NeoForge mavenizer artifacts (written to project root)
+config.json
+patches.lzma
+patches/
+ats/
+META-INF/
+
 # Misc
 *.log

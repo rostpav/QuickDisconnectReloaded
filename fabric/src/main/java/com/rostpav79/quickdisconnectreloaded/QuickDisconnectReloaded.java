@@ -6,19 +6,21 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.GenericMessageScreen;
 import net.minecraft.client.gui.screens.TitleScreen;
-import net.minecraft.network.chat.Component;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.resources.Identifier;
 import org.lwjgl.glfw.GLFW;
 
 public class QuickDisconnectReloaded implements ClientModInitializer {
     public static final String MODID = "quickdisconnectreloaded";
 
+    public static final KeyMapping.Category KEY_CATEGORY = KeyMapping.Category.register(Identifier.fromNamespaceAndPath(MODID, "keys"));
+
     public static final KeyMapping DISCONNECT_KEY = new KeyMapping(
             "key.quickdisconnectreloaded.disconnect",
             InputConstants.Type.KEYSYM,
             GLFW.GLFW_KEY_F10,
-            "category.quickdisconnectreloaded.keys");
+            KEY_CATEGORY);
 
     @Override
     public void onInitializeClient() {
@@ -29,11 +31,11 @@ public class QuickDisconnectReloaded implements ClientModInitializer {
                 Minecraft mc = Minecraft.getInstance();
                 if (mc.level != null) {
                     boolean isLocal = mc.isLocalServer();
-                    mc.level.disconnect();
+                    mc.level.disconnect(ClientLevel.DEFAULT_QUIT_MESSAGE);
                     if (isLocal) {
-                        mc.disconnect(new GenericMessageScreen(Component.translatable("menu.savingLevel")));
+                        mc.disconnectWithSavingScreen();
                     } else {
-                        mc.disconnect();
+                        mc.disconnectWithProgressScreen();
                     }
                     mc.setScreen(new TitleScreen());
                 }
