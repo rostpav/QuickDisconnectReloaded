@@ -3,7 +3,7 @@ plugins {
     id 'idea'
     id 'eclipse'
     id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '[7.0.3,8)'
+    id 'net.minecraftforge.gradle' version '[7.0.17,8)'
 }
 
 version = mod_version
@@ -13,17 +13,12 @@ base {
     archivesName = mod_id
 }
 
-// Mojang ships Java 21 to end users in 1.20.5+, so your mod should target Java 21.
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+java.toolchain.languageVersion = JavaLanguageVersion.of(25)
 
 // Include generated resources
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 minecraft {
-    mappings channel: mapping_channel, version: mapping_version
-
-    accessTransformer = true
-
     runs {
         configureEach {
             workingDir = layout.projectDirectory.dir('run')

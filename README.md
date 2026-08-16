@@ -11,16 +11,16 @@ This is a multi-loader project. Each loader has its own subproject with the same
 
 | Loader    | Minecraft | Subproject | Output jar                                   |
 |-----------|-----------|------------|----------------------------------------------|
-| Forge     | 1.21.11   | `forge`    | `QuickDisconnectReloaded_FORGE_mc1.21.11.jar` |
-| NeoForge  | 1.21.11   | `neoforge` | `QuickDisconnectReloaded_NEOFORGE_mc1.21.11.jar` |
-| Fabric    | 1.21.11   | `fabric`   | `QuickDisconnectReloaded_FABRIC_mc1.21.11.jar` |
+| Forge     | 26.1.2    | `forge`    | `QuickDisconnectReloaded_FORGE_mc26.1.2.jar`  |
+| NeoForge  | 26.1.2    | `neoforge` | `QuickDisconnectReloaded_NEOFORGE_mc26.1.2.jar` |
+| Fabric    | 26.1.2    | `fabric`   | `QuickDisconnectReloaded_FABRIC_mc26.1.2.jar` |
 
 ## Building
 
-Requires JDK 21 and Gradle 9.5 (via the wrapper). The Fabric build (Loom) needs Gradle itself to run on Java 21:
+Requires JDK 25 and Gradle 9.5 (via the wrapper). The Fabric build (Loom) needs Gradle itself to run on Java 25:
 
 ```powershell
-$env:JAVA_HOME = "<path-to-jdk-21>"
+$env:JAVA_HOME = "<path-to-jdk-25>"
 .\gradlew.bat clean :forge:build :neoforge:build :fabric:build
 ```
 
